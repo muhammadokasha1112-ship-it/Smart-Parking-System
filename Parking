@@ -1,0 +1,246 @@
+import java.util.*;
+import java.sql.*;
+interface Parkable{
+	double feeForHours(double hours);
+	String buildReceipt(String vehicleId, double hours);
+
+}
+abstract class Net implements Parkable {
+	double  basefee;
+	double perhour;
+	Net(double basefee,double perhour){
+		this.perhour=perhour;
+		this.basefee=basefee;
+	}
+
+	
+
+
+	
+	
+
+
+	public double feeForHours(double hours){
+		if(hours<=0){
+			return 0.0;
+		}
+		double h=Math.ceil(hours);
+		return  basefee+(h*perhour);
+
+
+	}
+	// double loyaltyCredit(double[] pastCharges){
+	// 	if(pastCharges.length==0) return 0;
+	// 	int sum=0;
+	// 	for(int i=0;i<pastCharges.length;i++){
+	// 		if(pastCharges[i]<0){
+	// 			System.out.println("bad data...");
+	// 		}
+	// 		sum+=pastCharges[i];
+	// 	}if(sum<loyaltyCredit){
+			
+	// 	}
+	// }
+	 public String buildReceipt(String vehicleId, double hours) {
+        double fee = feeForHours(hours);
+        return "CAR | ID: " + vehicleId + " | Hours: " + hours + " | Fee: " + fee;
+    }
+
+
+}
+
+class CarParking extends Net{
+	 double carfee;
+		CarParking(double basefee,double perhour,double carfee){
+		super(basefee,perhour);
+		this.carfee=carfee;
+	}
+
+	@Override
+	public double feeForHours(double hours){
+		if(hours<=0){
+			return 0.0;
+		}
+		double h=Math.ceil(hours);
+		return  basefee+(carfee*h);
+
+}
+	@Override
+	 public String buildReceipt(String vehicleId, double hours) {
+        double fee = feeForHours(hours);
+        return "CAR | ID: " + vehicleId + "\n | Hours: " + hours + "\n | Fee: " + fee;
+    }
+
+}
+class BikeParking extends Net{
+	 double bikefee;
+	BikeParking(double basefee,double perhour,double bikefee){
+		super(basefee,perhour);
+		this.bikefee=bikefee;
+	}
+
+
+	@Override
+	public double feeForHours(double hours){
+		if(hours<=0){
+			return 0.0;
+		}
+		double h=Math.ceil(hours);
+		return  basefee+(bikefee*h);
+
+}	
+	@Override
+	 public String buildReceipt(String vehicleId, double hours) {
+        double fee = feeForHours(hours);
+        return "BIKE | ID: " + vehicleId + "\n | Hours: " + hours + "\n | Fee: " + fee;
+    }
+
+
+}
+class DB{
+	Connection con;
+	DB(){
+
+	try{
+		 Class.forName("com.mysql.cj.jdbc.Driver");
+
+			 con=DriverManager.getConnection("jdbc:mysql://localhost:3306/smart_parking",
+													"root",
+													"Okasha123321123");
+			System.out.println("database connected...");
+		}catch(Exception e){
+			System.out.println(e);
+		}
+
+	}
+	 public void insertData(String type,String id,double hours,double fee){
+
+        try{
+
+            String q = "insert into parking(type,vehicle_id,hours,fee) values(?,?,?,?)";
+
+            PreparedStatement pst = con.prepareStatement(q);
+
+            pst.setString(1,type);
+            pst.setString(2,id);
+            pst.setDouble(3,hours);
+            pst.setDouble(4,fee);
+
+            pst.executeUpdate();
+
+            System.out.println("Data Inserted Successfully...");
+
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public  void showData(){
+    	try{
+    		System.out.println("****************** OVERALL  RECORD *************************");
+    		String w="select * from parking;";
+    		PreparedStatement t = con.prepareStatement(w);
+
+    		ResultSet r=t.executeQuery();
+
+    		while(r.next()){
+    			System.out.println(
+    								r.getInt(1)+" "+
+    								r.getString(2)+" "+
+    								r.getString(3)+" "+
+    								r.getDouble(4)+" "+
+    								r.getDouble(5)+" "
+    								);
+    		}
+
+    	}catch(Exception e){
+    		System.out.println(e);
+    	}
+    }
+    public void revenue(){
+    	try{
+    		System.out.println("$$$$$$$$$$$$$ TOTAL AMOUNT $$$$$$$$$$$$$$");
+    		String h="select SUM(fee) from parking;";
+
+    		PreparedStatement er=con.prepareStatement(h);
+    		ResultSet r=er.executeQuery();
+    		while(r.next()){
+    			System.out.println("Total revenue: "+r.getDouble(1));
+    		}
+    	}catch(Exception e){
+    		System.out.println(e);
+    	}
+    }
+
+}
+class Main{
+	public static void main(String args[]){
+
+
+
+
+		Scanner sc=new Scanner(System.in);
+		DB db=new DB();
+		int choice;
+		while(true){
+			System.out.println("\n===== SMART PARKING SYSTEM =====");
+            System.out.println("1. Park a Car");
+            System.out.println("2. Park a Bike");
+            System.out.println("3. Show OVERALL record");
+            System.out.println("4. Total revenue ");
+            System.out.println("5. Exit");
+            System.out.print("Enter choice: ");
+
+            choice = sc.nextInt();
+            sc.nextLine(); 
+
+            if (choice == 5) {
+                System.out.println("Thank you for using Smart Parking System. Goodbye!");
+                break; 
+            }
+            if(choice==4){
+            	db.revenue();
+            	continue;
+            }
+            if(choice==3){
+            	db.showData();
+            	continue;
+            }
+
+            if (choice != 1 && choice != 2 ) {
+                System.out.println("Invalid choice! Please enter 1, 2, 3 or 4.");
+                continue; 
+            }
+            System.out.println("Enter  number: ");
+			String no=sc.nextLine();
+			System.out.println("enter hours: ");	
+			double h=sc.nextDouble();
+
+			Parkable p;
+			String type;
+
+		if(choice==1){
+			p=new CarParking(20,40,150);
+			type="Car";
+			
+				
+		}else{
+			p=new BikeParking(10,40,100);
+			type="Bike"; 	
+
+		}
+		double fee = p.feeForHours(h);
+		System.out.println(p.buildReceipt(no,h));
+		
+			db.insertData(type,no,h,fee);
+				
+		}
+
+
+
+
+		}
+	
+		
+	}
+
