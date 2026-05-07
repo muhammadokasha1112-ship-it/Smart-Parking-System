@@ -13,13 +13,6 @@ abstract class Net implements Parkable {
 		this.basefee=basefee;
 	}
 
-	
-
-
-	
-	
-
-
 	public double feeForHours(double hours){
 		if(hours<=0){
 			return 0.0;
@@ -29,18 +22,7 @@ abstract class Net implements Parkable {
 
 
 	}
-	// double loyaltyCredit(double[] pastCharges){
-	// 	if(pastCharges.length==0) return 0;
-	// 	int sum=0;
-	// 	for(int i=0;i<pastCharges.length;i++){
-	// 		if(pastCharges[i]<0){
-	// 			System.out.println("bad data...");
-	// 		}
-	// 		sum+=pastCharges[i];
-	// 	}if(sum<loyaltyCredit){
-			
-	// 	}
-	// }
+	
 	 public String buildReceipt(String vehicleId, double hours) {
         double fee = feeForHours(hours);
         return "CAR | ID: " + vehicleId + " | Hours: " + hours + " | Fee: " + fee;
@@ -176,9 +158,6 @@ class DB{
 class Main{
 	public static void main(String args[]){
 
-
-
-
 		Scanner sc=new Scanner(System.in);
 		DB db=new DB();
 		int choice;
@@ -235,9 +214,6 @@ class Main{
 			db.insertData(type,no,h,fee);
 				
 		}
-
-
-
 
 		}
 	
