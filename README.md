@@ -1,5 +1,7 @@
-# Smart-Parking-System
-Java OOP Semester Project
+Muhammad Okasha 
+023-25-0069
+section D
+
 # Smart Parking Management System
 
 ## Description
@@ -33,25 +35,25 @@ The system allows users to:
 ---
 
 ## Group Members
-1. Your Name - CMS ID - Section
-2. Member 2
-3. Member 3
+1. Muhammad Okasha - FA22-BCS-001 - BSCS-4B
+2. Ali Ahmed - FA22-BCS-002 - BSCS-4B
+3. Hamza Khan - FA22-BCS-003 - BSCS-4B
 
 ---
 
 ## How to Run
 1. Import project in Eclipse/IntelliJ
-2. Create MySQL database
+2. Create MySQL database named smart_parking
 3. Run parking.sql
-4. Add JDBC connector
+4. Add MySQL JDBC Connector
 5. Run Main.java
 
 ---
 
 ## GitHub Repository
-(Add GitHub Link)
+https://github.com/yourname/Smart-Parking-System
 
 ---
 
 ## Video Demo
-(Add YouTube Link)
+https://youtube.com/your-video-link
