@@ -34,10 +34,9 @@ The system allows users to:
 
 ---
 
-## Group Members
-1. Muhammad Okasha - FA22-BCS-001 - BSCS-4B
-2. Ali Ahmed - FA22-BCS-002 - BSCS-4B
-3. Hamza Khan - FA22-BCS-003 - BSCS-4B
+## Group Members(individual)
+1. Muhammad Okasha - 023-25-0069-  section - D
+
 
 ---
 
@@ -51,9 +50,9 @@ The system allows users to:
 ---
 
 ## GitHub Repository
-https://github.com/yourname/Smart-Parking-System
+https://github.com/muhammadokasha1112-ship-it/Smart-Parking-System.git
 
 ---
 
 ## Video Demo
-https://youtube.com/your-video-link
+https://youtu.be/EIZXCSKGeWI
